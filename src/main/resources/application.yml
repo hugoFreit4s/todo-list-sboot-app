@@ -1,0 +1,23 @@
+spring:
+  config:
+    import: "file:./env.yml"
+
+  application:
+    name: todo-list
+
+  datasource:
+    url: ${database.url}
+    username: ${database.username}
+    password: ${database.password}
+
+  jpa:
+    properties:
+      hibernate:
+        default_schema: public
+    hibernate:
+      ddl-auto: validate
+
+security:
+  jwt:
+    secret-key: ${api.secret}
+    expiration-time: ${api.expiration-time}
