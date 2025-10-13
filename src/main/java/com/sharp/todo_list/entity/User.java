@@ -1,9 +1,12 @@
 package com.sharp.todo_list.entity;
 
+import com.sharp.todo_list.converter.UserRoleEnumConverter;
+import com.sharp.todo_list.enums.UserRoleENUM;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -18,21 +21,21 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends BaseEntity implements UserDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String email;
     @Column(nullable = false)
     private String password;
     @OneToMany(mappedBy = "author")
     private List<Task> tasks;
+    @Column(nullable = false, name = "user_role")
+    @Convert(converter = UserRoleEnumConverter.class)
+    private UserRoleENUM role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
     }
 
     @Override

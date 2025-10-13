@@ -14,9 +14,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 public class Task extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     @Column(nullable = false)
     private String name;
     @Column(nullable = false)
